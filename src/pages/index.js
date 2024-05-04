@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
 
-<div className="container max-w-none bg-base-100 p-8">
+<div className="container max-w-none bg-base-100 p-8 select-none">
 
 {/* Grid */}
 <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
