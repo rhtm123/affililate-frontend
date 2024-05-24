@@ -57,14 +57,14 @@ export default function Blog() {
           />
         </Head>
         {/* <!-- Blog Article --> */}
-        <div className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto select-none">
+        <div className="max-w-3xl px-4 pt-4 lg:px-8 mx-auto">
           <div className="text-sm breadcrumbs">
             <ul>
               <li>
                 <Link href="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>Home</Link>
               </li>
               <li>
-                <Link href="/blogs">Blogs</Link>
+                <Link href="/top-10">Top 10 Products</Link>
               </li>
               <li>{blogData.title}</li>
             </ul>
@@ -109,13 +109,12 @@ export default function Blog() {
                 </div>
               </div>
             </div>
-            <br />
 
             <div
               className=" prose max-w-none"
               dangerouslySetInnerHTML={{ __html: blogData.detail }}
             />
-            <div>
+            <div className="py-4">
               {blogProduct &&
                 blogProduct.map(({ product }) => (
                   <ProductCard key={product.id} product={product} />

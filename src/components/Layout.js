@@ -5,11 +5,11 @@ export default function Layout({children}){
 
 
     return(
-<>
-<Navbar />
-<main>{children}</main>
+        <>
+        <Navbar />
+        <main>{children}</main>
 
-<Footer />
-</>
+        <Footer />
+        </>
     )
 }
