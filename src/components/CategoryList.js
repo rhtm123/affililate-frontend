@@ -8,7 +8,7 @@ export default function CategoryList(){
 
     const fetchCategorys = async () => {
         try {
-          const response = await fetch(process.env.API_URL+"/api/category/categorys");
+          const response = await fetch(process.env.API_URL+"api/category/categorys");
           if (!response.ok) {
             throw new Error('Error fetching products');
           }
