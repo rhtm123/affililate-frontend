@@ -3,58 +3,22 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import ProductCard from "@/components/BlogProductCard";
+import BlogProductList from "@/components/BlogProductList";
+import Error404 from "@/components/Error404";
 
-export default function Blog() {
+export default function Blog({blogData, error}) {
   const router = useRouter();
-  const { slug } = router.query;
-  const [blogData, setBlogData] = useState(null);
-  const [blogProduct, setBlogProduct] = useState(null);
 
-  useEffect(() => {
-    if (slug) {
-      fetch(process.env.API_URL + `api/blog/blog/${slug}`)
-        .then((response) => response.json())
-        .then((data) => setBlogData(data))
-        .catch((error) => console.error("Error fetching blog data:", error));
-    }
-  }, [slug]);
-
-  useEffect(() => {
-    if (blogData) {
-      const fetchProducts = async () => {
-        try {
-          const response = await fetch(
-            process.env.API_URL +
-              `api/blog/blogproducts/?blog=${blogData.id}&product=`
-          );
-          if (!response.ok) {
-            throw new Error("Failed to fetch products");
-          }
-          const data = await response.json();
-          setBlogProduct(data.results);
-        } catch (error) {
-          console.error("Error fetching blog products:", error);
-        }
-      };
-      fetchProducts();
-    }
-  }, [blogData]);
-
-  if (!blogData) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <Error404 />;
   }
 
   return (
     <>
       <main>
         <Head>
-          <title>{blogData.title}</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
+          <title>{blogData.seo_title}</title>
+          <meta name="description" content={blogData.seo_description} />
         </Head>
         {/* <!-- Blog Article --> */}
         <div className="max-w-3xl px-4 pt-4 lg:px-8 mx-auto">
@@ -73,7 +37,7 @@ export default function Blog() {
             <h1 className="text-4xl	pb-6 font-bold">{blogData.title}</h1>
 
             {/* <!-- Avatar Media --> */}
-            <div className="flex justify-between items-center mb-6">
+            {/* <div className="flex justify-between items-center mb-6">
               <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
                 <div className="flex-shrink-0">
                   <img
@@ -108,17 +72,14 @@ export default function Blog() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div
               className=" prose max-w-none"
               dangerouslySetInnerHTML={{ __html: blogData.detail }}
             />
             <div className="py-4">
-              {blogProduct &&
-                blogProduct.map(({ product }) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+              <BlogProductList blog={blogData} />
             </div>
 
             {/* <!-- End Content --> */}
@@ -127,4 +88,23 @@ export default function Blog() {
       </main>
     </>
   );
+}
+
+
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+  const {slug} = context.params;
+  const url = process.env.API_URL+"api/blog/blog/"+slug;
+
+  const res = await fetch(url)
+  const error = res.ok ? false : true
+  const data = await res.json()
+  // console.log(data);
+
+  return { 
+      props: { 
+          blogData:data, error:error
+      } 
+
+  }
 }

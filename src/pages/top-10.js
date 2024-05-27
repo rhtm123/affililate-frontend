@@ -1,35 +1,35 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import BlogCard from "@/components/BlogCard";
+import BlogList from "@/components/BlogList";
 
 export default function Blogs() {
-  const [blogPosts, setBlogPosts] = useState([]);
+  // const [blogPosts, setBlogPosts] = useState([]);
 
-  const fetchBlogs = async () => {
-    try {
-      const response = await fetch(process.env.API_URL +`api/blog/blogs`);
-      if (!response.ok) {
-        throw new Error('Error fetching products');
-      }
-      const data = await response.json();
-      // console.log(data);  
-      // setProducts(data);
-      setBlogPosts(data.results)
-    } catch (error) {
-      console.error(error.message);
+  // const fetchBlogs = async () => {
+  //   try {
+  //     const response = await fetch(process.env.API_URL +`api/blog/blogs`);
+  //     if (!response.ok) {
+  //       throw new Error('Error fetching products');
+  //     }
+  //     const data = await response.json();
+  //     // console.log(data);  
+  //     // setProducts(data);
+  //     setBlogPosts(data.results)
+  //   } catch (error) {
+  //     console.error(error.message);
     
-    }
-  };
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  // useEffect(() => {
+  //   fetchBlogs();
+  // }, []);
 
   return (
     <>
       <Head>
-        <title>Top 10 products from Amazon, Flipkart | #MastDealHai</title>
+        <title>Top 10 products from Amazon, Flipkart | MastDealHai</title>
+        <meta name="description" content="Discover expert buying tips, top brands, and exclusive deals! Save money on your next purchase with our comprehensive guide" />
       </Head>
       
       <div className="px-4 md:px-8 min-h-screen">
@@ -45,13 +45,14 @@ export default function Blogs() {
           <h2 className="text-xl opacity-50">What to find the best product in your budget?</h2>
         </div>
 
-        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3">
+        <BlogList url={process.env.API_URL +`api/blog/blogs`}/>
+        {/* <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3">
           {blogPosts.map((blog) => (
             <Link key={blog.id} href={`/top-10/${blog.slug}`}>
                 <BlogCard data={blog} />
             </Link>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );
