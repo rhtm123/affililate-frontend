@@ -14,8 +14,8 @@ export default function CategoryPage({data,error}){
 
         <>
         <Head>
-        <title>{data?.name} Top 10 products from Amazon, Flipkart | MastDealHai</title>
-        <meta name="description" content={`Discover the Top 10 best-rated ${data?.name} products under your budget on Amazon & Flipkart! Get expert insights & find the perfect choice for your needs.`} />
+        <title>{data?.name} Top 5 products from Amazon, Flipkart | MastDealHai</title>
+        <meta name="description" content={`Discover the Top 5 best-rated ${data?.name} products under your budget on Amazon & Flipkart! Get expert insights & find the perfect choice for your needs.`} />
       </Head>   
 
 
@@ -23,12 +23,12 @@ export default function CategoryPage({data,error}){
             <div className="text-sm breadcrumbs">
                 <ul>
                     <li><Link href="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>Home</Link></li> 
-                    <li>{data?.name}: Top 10 Products</li>
+                    <li>{data?.name}: Top 5 Products</li>
                 </ul>
             </div>
 
             <div className="text-center pt-2 pb-6">
-            <h1 className="text-4xl py-2">{data?.name}: Top 10 Products</h1>
+            <h1 className="text-4xl py-2">{data?.name}: Top 5 Products</h1>
             <h2 className="text-xl opacity-50">Find the best deal of {data?.name} categoy in your budget</h2>
             </div>
 

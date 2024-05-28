@@ -11,9 +11,9 @@ export default function CategoryCard({data}){
 
     <h2 className="card-title">{data.name}</h2>
     {/* <p>How to park your car at your garage?</p> */}
-    <div className="card-actions">
+    {/* <div className="card-actions">
       <Link href={"/category/"+data.slug} className="border p-2 mt-2 rounded-lg">Shop Now</Link>
-    </div>
+    </div> */}
   </div>
 </div>
     )

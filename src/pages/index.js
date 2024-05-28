@@ -11,7 +11,7 @@ export default function Home() {
 
   <Head>
     <title>Top Deals & Price Tracking | Save Big on Amazon & Flipkart | MastDealHai</title>
-    <meta name="description" content="Find the hottest deals on Amazon & Flipkart! Track product prices & discover top 10 budget-friendly options across categories. Save money effortlessly" />
+    <meta name="description" content="Find the hottest deals on Amazon & Flipkart! Track product prices & discover Top 5 budget-friendly options across categories. Save money effortlessly" />
 
   </Head>
 
@@ -30,9 +30,9 @@ export default function Home() {
     <div className="mt-4 grid gap-3 w-full sm:inline-flex">
     <Link
         className="btn btn-outline btn-primary"
-        href="/top-10"
+        href="/top-5"
       >
-        Top 10 Products
+        Top 5 Products
       </Link>
 
     </div>
@@ -60,7 +60,7 @@ export default function Home() {
 
 <section class="bg-base-200">
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h2 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">Find top 10 by category</h2>
+        <h2 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">Find Top 5 by category</h2>
         <p class="mb-8 text-lg font-normal lg:text-xl sm:px-16 xl:px-48">Find the best deals in your category you want to purchase.</p>
         
         <CategoryList />

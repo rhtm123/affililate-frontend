@@ -28,7 +28,7 @@ export default function Blog({blogData, error}) {
                 <Link href="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>Home</Link>
               </li>
               <li>
-                <Link href="/top-10">Top 10 Products</Link>
+                <Link href="/top-5">Top 5 Products</Link>
               </li>
               <li>{blogData.title}</li>
             </ul>

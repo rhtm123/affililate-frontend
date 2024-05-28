@@ -48,7 +48,7 @@ export default function Navbar(){
     </label> */}
 
 
-      <li><Link href="/top-10">Top 10</Link></li>
+      <li><Link href="/top-5">Top 5</Link></li>
       
       {/* <div className="dropdown dropdown-end ">
         <div tabIndex={0} role="button" className="btn btn-sm">Click</div>
