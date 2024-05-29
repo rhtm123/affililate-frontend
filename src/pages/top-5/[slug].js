@@ -7,7 +7,7 @@ import BlogProductList from "@/components/BlogProductList";
 import Error404 from "@/components/Error404";
 
 export default function Blog({blogData, error}) {
-  const router = useRouter();
+  // const router = useRouter();
 
   if (error) {
     return <Error404 />;
@@ -29,6 +29,9 @@ export default function Blog({blogData, error}) {
               </li>
               <li>
                 <Link href="/top-5">Top 5 Products</Link>
+              </li>
+              <li>
+                <Link href={"/category/"+blogData?.category.slug}>{blogData?.category.name}: Top 5 Products</Link>
               </li>
               <li>{blogData.title}</li>
             </ul>

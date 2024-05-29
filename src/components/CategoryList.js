@@ -5,9 +5,11 @@ import Link from "next/link";
 export default function CategoryList(){
 
     const [categorys, setCategorys] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchCategorys = async () => {
         try {
+          setLoading(true);
           const response = await fetch(process.env.API_URL+"api/category/categorys");
           if (!response.ok) {
             throw new Error('Error fetching products');
@@ -18,6 +20,9 @@ export default function CategoryList(){
           setCategorys(data.results)
         } catch (error) {
           console.error(error.message);
+        }
+        finally {
+          setLoading(false);
         }
       };
     
@@ -36,7 +41,8 @@ export default function CategoryList(){
             </Link>
           ))}
         </div>
-        
+        {loading && <span class="loading loading-dots loading-sm"></span>}
+
         </>
     )
 }
