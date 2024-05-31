@@ -2,7 +2,6 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import BlogProductList from "@/components/BlogProductList";
 import Error404 from "@/components/Error404";
 

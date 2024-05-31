@@ -1,6 +1,10 @@
 // components/BlogProductCard.js
 
+import { useEffect, useState } from "react";
+
+
 export default function ProductCard({ product }) {
+  
   // console.log(product)
     return (
       <div className="card my-4 bg-base-300 shadow">
