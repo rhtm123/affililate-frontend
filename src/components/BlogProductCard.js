@@ -7,44 +7,45 @@ import { SiFlipkart } from "react-icons/si";
 export default function ProductCard({ product }) {
   const firstVariant = product.variants[0] || {};
   const mrp = firstVariant.mrp || product.mrp;
+  console.log(product);
 
   return (
     <div className="card my-4 bg-base-300 shadow">
       <div className="card-body p-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="badge badge-primary badge-outline">
+
+      <span className="badge badge-primary badge-outline">
             {product.category?.name}
           </span>
-          {mrp && (
-            <span className="text-right">
-              <span className="line-through">₹{mrp}</span>
-            </span>
-          )}
+        <div className="flex justify-between items-center mb-2">
+
+          <h2 className="card-title">{product.name}</h2>
+   
+              <span className="text-right line-through">₹{mrp}</span>
         </div>
-        <h2 className="card-title mb-4">{product.name}</h2>
-        <div className="flex flex-wrap gap-4">
+
+
+        <div className="">
           {product.variants.length > 0 ? (
             product.variants.map((variant) => (
-              <div key={variant.id} className="flex-1">
-                <div className="flex justify-between items-center mb-2">
-                  {variant.name && (
-                    <span className="text-lg font-bold">{variant.name}</span>
-                  )}
-                </div>
+              <div key={variant.id} className="border bg-base-100 border-dashed	rounded-lg px-4 py-2 flex justify-between items-center mb-2">
+                
+                <span className="text-lg font-bold">{variant?.name}</span>
+
+                <div className="flex">
+
                 {variant.affiliates.map((affiliate) => (
-                  <div key={affiliate.id} className="mb-2">
-                    <Link href={affiliate.affiliate_link} target="_blank" rel="noopener noreferrer">
-                      <button className="btn btn-primary flex justify-between items-center ">
-                        {affiliate.marketplace === 1 && <FaAmazon className="mr-2" />}
+                    <Link className="ml-2" key={affiliate.id} href={affiliate.affiliate_link} target="_blank" rel="noopener noreferrer">
+                      <button className="btn btn-primary">
+                        {affiliate.marketplace === 1 && <FaAmazon size={32} className="mr-2" />}
                         {affiliate.marketplace === 2 && <SiFlipkart className="mr-2" />}
-                        <span>
+                        <span className="font-bold">
                           Buy Now
                           {affiliate.current_price ? ` - ₹${affiliate.current_price}` : ""}
                         </span>
                       </button>
                     </Link>
-                  </div>
                 ))}
+                </div>
               </div>
             ))
           ) : (
