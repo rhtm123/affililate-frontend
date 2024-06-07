@@ -34,6 +34,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
       category,
       features: variantFeaturesData.results.filter(feature => feature.feature_category.name === category),
     }))
+    .filter(category => category.features.length > 0);
 
     console.log(categorizedFeatures)
     setFeatures(categorizedFeatures);
@@ -74,22 +75,23 @@ const ProductDetail = ({ data, featureCategorys }) => {
         <h2 className="text-lg font-semibold mb-2">Variants</h2>
         <ul className="flex space-x-4">
           {product?.variants.map(variant => (
+            <Link href={`/product/${variant.slug}`} key={variant.slug} >
             <button 
-              className={`btn ${variant.id === data.id ? 'btn-primary' : 'btn-outline'}`}
-              key={variant.id}
-              onClick={() => handleVariantClick(variant.id)}
+              className={`btn ${variant.name === data.name ? 'btn-primary' : 'btn-outline'}`}
+              key={variant.name}
             >
               <li className="cursor-pointer">{variant.name}</li>
             </button>
+            </Link>
           ))}
         </ul>
       </div>
 
-      {/* <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
+      <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
         <h2 className="text-xl font-semibold mb-2">Features</h2>
-        {featureCategorys.map(category => (
-          <div key={category.id} className="mb-4">
-            <h3 className="text-lg font-semibold bg-base-100 p-2 rounded">{category.name}</h3>
+        {features.map(({ category, features }) => (
+          <div key={category} className="mb-4">
+            <h3 className="text-lg font-semibold bg-base-100 p-2 rounded">{category}</h3>
             <table className="table-auto w-full mt-2 border-collapse">
               <thead>
                 <tr>
@@ -98,7 +100,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
                 </tr>
               </thead>
               <tbody>
-                {category.features.map((feature, index) => (
+                {features.map((feature, index) => (
                   <tr key={index} className="border-t">
                     <td className="px-4 py-2">{feature.feature.name}</td>
                     <td className="px-4 py-2 border-l border-gray-400">{feature.feature.value}</td>
@@ -108,7 +110,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
             </table>
           </div>
         ))}
-      </div> */}
+      </div>
 
       {/* <div className="price-tracking bg-base-200 rounded-lg shadow p-4 mb-4">
         <div className="bg-base-100 p-2 rounded">
