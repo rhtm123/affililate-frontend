@@ -3,118 +3,79 @@ import Link from "next/link";
 import { FaAmazon } from "react-icons/fa";
 import { SiFlipkart } from "react-icons/si";
 
-const ProductDetail = ({ initialProductVariantId }) => {
-  const [productVariantId, setProductVariantId] = useState(initialProductVariantId);
-  const [productVariant, setProductVariant] = useState(null);
-  const [product, setProduct] = useState(null);
+const ProductDetail = ({ data, featureCategorys }) => {
+  // console.log(data);
+  const [productVariant, setProductVariant] = useState(data);
+  const [product, setProduct] = useState();
   const [features, setFeatures] = useState([]);
-  const [featureCategories, setFeatureCategories] = useState([]);
   const [priceTracks, setPriceTracks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [affiliateLinks, setAffiliateLinks] = useState(data.affiliates)
+
+  const fetchProduct = async () => {
+    const productResponse = await fetch(`${process.env.API_URL}api/product/product/${data.product.id}`);
+    const productData = await productResponse.json();
+    // console.log(productData);
+    setProduct(productData);
+  }
+
+  const fetchFeatures = async () => { 
+    const res = await fetch(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`);
+    const variantFeaturesData = await res.json();
+    if (!variantFeaturesData.results || variantFeaturesData.results.length === 0) {
+      throw new Error("No features found for this variant");
+    }
+    // setFeatures(variantFeaturesData.results);
+    // console.log(variantFeaturesData)
+
+
+
+    const categorizedFeatures = featureCategorys.map(category => ({
+      category,
+      features: variantFeaturesData.results.filter(feature => feature.feature_category.name === category),
+    }))
+
+    console.log(categorizedFeatures)
+    setFeatures(categorizedFeatures);
+
+  }
+
+
+  const fetchPriceList = async ()=> {
+
+   }
 
   useEffect(() => {
-    const fetchProductDetails = async () => {
       try {
         setLoading(true);
-
-        if (productVariantId) {
-          const variantFeaturesResponse = await fetch(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${productVariantId}`);
-          const variantFeaturesData = await variantFeaturesResponse.json();
-
-          if (!variantFeaturesData.results || variantFeaturesData.results.length === 0) {
-            throw new Error("No features found for this variant");
-          }
-
-          const variant = variantFeaturesData.results[0].product_variant;
-          setProductVariant(variant);
-          setFeatures(variantFeaturesData.results);
-
-          const productResponse = await fetch(`${process.env.API_URL}api/product/product/${variant.product}`);
-          const productData = await productResponse.json();
-          setProduct(productData);
-
-          const featureCategoriesResponse = await fetch(`${process.env.API_URL}api/product/featurecategorys/`);
-          const featureCategoriesData = await featureCategoriesResponse.json();
-          setFeatureCategories(featureCategoriesData.results);
-
-          const variantsResponse = await fetch(`${process.env.API_URL}api/product/variants/?product=${variant.product}`);
-          const variantsData = await variantsResponse.json();
-          setProduct(prevProduct => ({ ...prevProduct, variants: variantsData.results }));
-
-          const currentVariant = variantsData.results.find(v => v.id === productVariantId);
-          if (currentVariant) {
-            setPriceTracks(currentVariant.affiliates);
-          }
-        }
+        fetchProduct();
+        // fetchVariants();
+        fetchFeatures();
       } catch (error) {
         console.error("Error fetching product details:", error);
       } finally {
         setLoading(false);
       }
-    };
+  }, [data]);
 
-    const initializeProductDetails = async () => {
-      if (!productVariantId) {
-        try {
-          const productResponse = await fetch(`${process.env.API_URL}api/product/product/${initialProductVariantId}`);
-          const productData = await productResponse.json();
-          setProduct(productData);
-
-          const variantsResponse = await fetch(`${process.env.API_URL}api/product/variants/?product=${productData.id}`);
-          const variantsData = await variantsResponse.json();
-
-          if (variantsData.results.length > 0) {
-            const firstVariantId = variantsData.results[0].id;
-            setProductVariantId(firstVariantId);
-          }
-        } catch (error) {
-          console.error("Error initializing product details:", error);
-        }
-      }
-    };
-
-    if (productVariantId) {
-      fetchProductDetails();
-    } else {
-      initializeProductDetails();
-    }
-  }, [productVariantId, initialProductVariantId]);
-
-  const handleVariantClick = (variantId) => {
-    setProductVariantId(variantId);
-  };
 
   if (loading) {
     return <div className="text-center py-8">Loading...</div>;
   }
 
-  if (!productVariant) {
-    return <div className="text-center py-8">Product variant not found.</div>;
-  }
-
-  const categorizedFeatures = featureCategories
-    .map(category => ({
-      ...category,
-      features: features.filter(feature => feature.feature.feature_category === category.id),
-    }))
-    .filter(category => category.features.length > 0);
-
-  const affiliateLinks = product.variants
-    .find(variant => variant.id === productVariantId)?.affiliates || [];
-
   return (
     <div className="product-detail container mx-auto p-8">
       <div className="product-header bg-base-200 rounded-lg shadow p-4 mb-4">
-        <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+        <h1 className="text-3xl font-bold mb-2">{product?.name}</h1>
         {/* <h2 className="text-xl font-semibold text-gray-700">{productVariant.name}</h2> */}
       </div>
 
       <div className="variant-switcher bg-base-200 rounded-lg shadow p-4 mb-4">
         <h2 className="text-lg font-semibold mb-2">Variants</h2>
         <ul className="flex space-x-4">
-          {product.variants.map(variant => (
+          {product?.variants.map(variant => (
             <button 
-              className={`btn ${variant.id === productVariantId ? 'btn-primary' : 'btn-outline'}`}
+              className={`btn ${variant.id === data.id ? 'btn-primary' : 'btn-outline'}`}
               key={variant.id}
               onClick={() => handleVariantClick(variant.id)}
             >
@@ -124,9 +85,9 @@ const ProductDetail = ({ initialProductVariantId }) => {
         </ul>
       </div>
 
-      <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
+      {/* <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
         <h2 className="text-xl font-semibold mb-2">Features</h2>
-        {categorizedFeatures.map(category => (
+        {featureCategorys.map(category => (
           <div key={category.id} className="mb-4">
             <h3 className="text-lg font-semibold bg-base-100 p-2 rounded">{category.name}</h3>
             <table className="table-auto w-full mt-2 border-collapse">
@@ -147,9 +108,9 @@ const ProductDetail = ({ initialProductVariantId }) => {
             </table>
           </div>
         ))}
-      </div>
+      </div> */}
 
-      <div className="price-tracking bg-base-200 rounded-lg shadow p-4 mb-4">
+      {/* <div className="price-tracking bg-base-200 rounded-lg shadow p-4 mb-4">
         <div className="bg-base-100 p-2 rounded">
         <h2 className="text-xl font-semibold ">Price Tracking</h2>
         </div>
@@ -160,7 +121,7 @@ const ProductDetail = ({ initialProductVariantId }) => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       <div className="affiliate-links bg-base-200 rounded-lg shadow p-4">
         <h2 className="text-xl font-semibold bg-base-100 p-2 rounded mb-2">Affiliate Links</h2>

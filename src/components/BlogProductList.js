@@ -8,7 +8,7 @@ export default function BlogProductList({ blog }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProductsAndVariants = async () => {
+    const fetchProducts = async () => {
       setLoading(true);
       try {
         const response = await fetch(
@@ -18,22 +18,8 @@ export default function BlogProductList({ blog }) {
           throw new Error("Failed to fetch products");
         }
         const data = await response.json();
-        const productsWithVariants = await Promise.all(
-          data.results.map(async (blogProduct) => {
-            const productResponse = await fetch(
-              `${process.env.API_URL}api/product/variants/?product=${blogProduct.product.id}`
-            );
-            if (!productResponse.ok) {
-              throw new Error("Failed to fetch product variants");
-            }
-            const productVariants = await productResponse.json();
-            return {
-              ...blogProduct.product,
-              variants: productVariants.results,
-            };
-          })
-        );
-        setBlogProducts(productsWithVariants);
+        setBlogProducts(data.results);
+
       } catch (error) {
         console.error("Error fetching blog products or variants:", error);
       } finally {
@@ -41,13 +27,13 @@ export default function BlogProductList({ blog }) {
       }
     };
 
-    fetchProductsAndVariants();
+    fetchProducts();
   }, [blog.id]);
 
   return (
     <>
       {blogProducts.map((product) => (
-        <ProductCard product={product} key={product.id} />
+        <ProductCard product={product?.product} key={product?.product.id} />
       ))}
 
       {loading && <span className="loading loading-dots loading-sm"></span>}
