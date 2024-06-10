@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
     const fetchVariants = async ()=>{
       try{
       const res = await fetch(
-              `${process.env.API_URL}/api/product/variants/?product=${product.id}`
+              `${process.env.API_URL}api/product/variants/?product=${product.id}`
             );
       let data = await res.json();
       console.log(data);
