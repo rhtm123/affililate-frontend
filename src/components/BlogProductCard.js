@@ -51,14 +51,14 @@ export default function ProductCard({ product }) {
         <div className="">
           {
             variants.map((variant) => (
-              <div key={variant.id} className="border bg-base-100 border-dashed rounded-lg px-4 py-2 flex justify-between items-center mb-2">
+              <div key={variant.id} className="border bg-base-100 border-dashed rounded-lg px-4 py-2 flex flex-col md:flex-row justify-between md:items-center mb-2">
                 <span className="text-lg font-bold">{variant?.name}</span>
-                <div className="flex">
+                <div className="md:flex">
                   {variant.affiliates.map((affiliate) => (
-                    <Link className="ml-2" key={affiliate.id} href={affiliate.affiliate_link} target="_blank" rel="noopener noreferrer">
-                      <button className="btn btn-primary">
-                        {affiliate.marketplace === 1 && <FaAmazon size={32} className="mr-2" />}
-                        {affiliate.marketplace === 2 && <SiFlipkart className="mr-2" />}
+                    <Link className="md:ml-2" key={affiliate.id} href={affiliate.affiliate_link} target="_blank" rel="noopener noreferrer">
+                      <button className="btn mb-2 md:mb-0 btn-sm md:btn-md btn-primary">
+                        {affiliate.marketplace === 1 && <FaAmazon size={24} className="mr-2" />}
+                        {affiliate.marketplace === 2 && <SiFlipkart size={24} className="mr-2" />}
                         <span className="font-bold">
                           Buy Now
                           {affiliate.current_price ? ` - ₹${affiliate.current_price}` : ""}
