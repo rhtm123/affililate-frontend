@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { FaAmazon } from "react-icons/fa";
 import { SiFlipkart } from "react-icons/si";
@@ -11,11 +12,12 @@ const ProductDetail = ({ data, featureCategorys }) => {
   const [priceTracks, setPriceTracks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [affiliateLinks, setAffiliateLinks] = useState(data.affiliates)
+  const router = useRouter();
 
   const fetchProduct = async () => {
     const productResponse = await fetch(`${process.env.API_URL}api/product/product/${data.product.id}`);
     const productData = await productResponse.json();
-    // console.log(productData);
+    console.log(productData);
     setProduct(productData);
   }
 
@@ -59,6 +61,16 @@ const ProductDetail = ({ data, featureCategorys }) => {
       }
   }, [data]);
 
+  useEffect(() => {
+    setAffiliateLinks(data.affiliates);
+  }, [data]);
+
+
+  const handleBuyNowClick = (affiliateLink) => {
+    const loadingPageUrl = `/loading?url=${encodeURIComponent(affiliateLink)}`;
+    window.open(loadingPageUrl, "_blank");
+  };
+
 
   if (loading) {
     return <div className="text-center py-8">Loading...</div>;
@@ -71,20 +83,42 @@ const ProductDetail = ({ data, featureCategorys }) => {
         {/* <h2 className="text-xl font-semibold text-gray-700">{productVariant.name}</h2> */}
       </div>
 
-      <div className="variant-switcher bg-base-200 rounded-lg shadow p-4 mb-4">
-        <h2 className="text-lg font-semibold mb-2">Variants</h2>
-        <ul className="flex space-x-4">
-          {product?.variants.map(variant => (
-            <Link href={`/product/${variant.slug}`} key={variant.slug} >
-            <button 
-              className={`btn ${variant.name === data.name ? 'btn-primary' : 'btn-outline'}`}
-              key={variant.name}
-            >
-              <li className="cursor-pointer">{variant.name}</li>
-            </button>
-            </Link>
-          ))}
-        </ul>
+      <div className="flex mb-4">
+        <div className="variant-switcher bg-base-200 rounded-lg shadow p-4 w-1/2 mr-2">
+          <h2 className="text-lg font-semibold mb-2">Variants</h2>
+          <ul className="flex space-x-4">
+            {product?.variants.map(variant => (
+              <Link href={`/product/${variant.slug}`} key={variant.slug}>
+                <button 
+                  className={`btn ${variant.name === data.name ? 'btn-primary' : 'btn-outline'}`} 
+                  key={variant.name}
+                >
+                  <li className="cursor-pointer">{variant.name}</li>
+                </button>
+              </Link>
+            ))}
+          </ul>
+        </div>
+
+        <div className="affiliate-links bg-base-200 rounded-lg shadow p-4 w-1/2 ml-2">
+          <h2 className="text-xl font-semibold bg-base-100 p-2 rounded mb-2">Affiliate Links</h2>
+          <div className="flex flex-wrap">
+            {affiliateLinks.map(affiliate => (
+              <button
+                key={affiliate.id}
+                className="btn btn-primary flex items-center ml-2"
+                onClick={() => handleBuyNowClick(affiliate.affiliate_link)}
+              >
+                {affiliate.marketplace === 1 && <FaAmazon size={24} className="mr-2" />}
+                {affiliate.marketplace === 2 && <SiFlipkart size={24} className="mr-2" />}
+                <span className="font-bold">
+                  Buy Now
+                  {affiliate.current_price ? ` - ₹${affiliate.current_price}` : ""}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
@@ -96,14 +130,14 @@ const ProductDetail = ({ data, featureCategorys }) => {
               <thead>
                 <tr>
                   <th className="px-4 py-2 text-left w-1/2">Feature</th>
-                  <th className="px-4 py-2 border-l border-gray-400 text-left w-1/2">Value</th>
+                  <th className="px-4 py-2 border-l border-gray-200 text-left w-1/2">Value</th>
                 </tr>
               </thead>
               <tbody>
                 {features.map((feature, index) => (
                   <tr key={index} className="border-t">
                     <td className="px-4 py-2">{feature.feature.name}</td>
-                    <td className="px-4 py-2 border-l border-gray-400">{feature.feature.value}</td>
+                    <td className="px-4 py-2 border-l border-gray-200">{feature.feature.value}</td>
                   </tr>
                 ))}
               </tbody>
@@ -125,29 +159,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
         </ul>
       </div> */}
 
-      <div className="affiliate-links bg-base-200 rounded-lg shadow p-4">
-        <h2 className="text-xl font-semibold bg-base-100 p-2 rounded mb-2">Affiliate Links</h2>
-        <div className="flex">
-          {affiliateLinks.map((affiliate) => (
-            <Link 
-              className="ml-2" 
-              key={affiliate.id} 
-              href={affiliate.affiliate_link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <button className="btn btn-primary flex items-center">
-                {affiliate.marketplace === 1 && <FaAmazon size={24} className="mr-2" />}
-                {affiliate.marketplace === 2 && <SiFlipkart size={24} className="mr-2" />}
-                <span className="font-bold">
-                  Buy Now
-                  {affiliate.current_price ? ` - ₹${affiliate.current_price}` : ""}
-                </span>
-              </button>
-            </Link>
-          ))}
-        </div>
-      </div>
+    
     </div>
   );
 };
