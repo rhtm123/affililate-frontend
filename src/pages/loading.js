@@ -17,6 +17,7 @@ const Loading = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center p-8 rounded-lg shadow-lg">
+      <p className="text-xl font-semibold mb-2">Thank you for visiting MastDealHai</p>
         <img src="/favicon.ico" alt="Logo" className="mb-4 mx-auto w-24 h-min" />
         <p className="text-xl font-semibold">On your way to...</p>
         <img src="https://cdn.logojoy.com/wp-content/uploads/20230629132639/current-logo-600x338.png" alt="Amazon" className="mb-4 mx-auto w-40" />
