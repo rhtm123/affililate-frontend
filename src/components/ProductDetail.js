@@ -45,7 +45,6 @@ const ProductDetail = ({ data, featureCategorys }) => {
       setFeatures(categorizedFeatures);
     }
 
-
   const fetchPriceList = async ()=> {
 
    }
@@ -131,17 +130,17 @@ const ProductDetail = ({ data, featureCategorys }) => {
           <div key={category} className="mb-4">
             <h3 className="text-lg font-semibold bg-base-100 p-2 rounded">{category}</h3>
             <table className="table-auto w-full mt-2 border-collapse">
-              <thead>
+              {/* <thead>
                 <tr>
                   <th className="px-4 py-2 text-left w-1/2">Feature</th>
                   <th className="px-4 py-2 border-l border-gray-200 text-left w-1/2">Value</th>
                 </tr>
-              </thead>
+              </thead> */}
               <tbody>
                 {features.map((feature, index) => (
                   <tr key={index} className="border-t">
-                    <td className="px-4 py-2">{feature.feature.name}</td>
-                    <td className="px-4 py-2 border-l border-gray-200">
+                    <td className="px-4 py-2 w-1/2">{feature.feature.name}</td>
+                    <td className="px-4 py-2 w-1/2 border-l border-gray-200">
 
                       <div dangerouslySetInnerHTML={{__html: feature.feature.value}}></div>
                       
