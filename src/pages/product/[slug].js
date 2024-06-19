@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
 
 
   return { 
-      props: { 
+      props: {  
          data:data, featureCategorys, error:error, 
       } 
 
