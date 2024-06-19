@@ -13,35 +13,37 @@ const ProductDetail = ({ data, featureCategorys }) => {
   const [loading, setLoading] = useState(true);
   const [affiliateLinks, setAffiliateLinks] = useState(data.affiliates)
   const router = useRouter();
+  // const [featureCategorys, setFeatureCategorys] = useState([]);
 
   const fetchProduct = async () => {
     const productResponse = await fetch(`${process.env.API_URL}api/product/product/${data.product.id}`);
     const productData = await productResponse.json();
     console.log(productData);
     setProduct(productData);
+    console.log(productData);
   }
 
   const fetchFeatures = async () => { 
     const res = await fetch(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`);
     const variantFeaturesData = await res.json();
-    if (!variantFeaturesData.results || variantFeaturesData.results.length === 0) {
-      throw new Error("No features found for this variant");
-    }
-    // setFeatures(variantFeaturesData.results);
-    // console.log(variantFeaturesData)
+
+    console.log(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`)
+
+    console.log(variantFeaturesData.results);
+
+    // featureCategorys.map(featureCat => )
 
 
 
     const categorizedFeatures = featureCategorys.map(category => ({
-      category,
-      features: variantFeaturesData.results.filter(feature => feature.feature_category.name === category),
-    }))
-    .filter(category => category.features.length > 0);
+        category,
+        features: variantFeaturesData.results.filter(feature => feature.feature_category.name === category),
+      }))
+      .filter(category => category.features.length > 0);
 
-    console.log(categorizedFeatures)
-    setFeatures(categorizedFeatures);
-
-  }
+      console.log(categorizedFeatures)
+      setFeatures(categorizedFeatures);
+    }
 
 
   const fetchPriceList = async ()=> {
@@ -119,7 +121,9 @@ const ProductDetail = ({ data, featureCategorys }) => {
             ))}
           </div>
         </div>
+      
       </div>
+
 
       <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
         <h2 className="text-xl font-semibold mb-2">Features</h2>
@@ -137,7 +141,11 @@ const ProductDetail = ({ data, featureCategorys }) => {
                 {features.map((feature, index) => (
                   <tr key={index} className="border-t">
                     <td className="px-4 py-2">{feature.feature.name}</td>
-                    <td className="px-4 py-2 border-l border-gray-200">{feature.feature.value}</td>
+                    <td className="px-4 py-2 border-l border-gray-200">
+
+                      <div dangerouslySetInnerHTML={{__html: feature.feature.value}}></div>
+                      
+                      </td>
                   </tr>
                 ))}
               </tbody>
