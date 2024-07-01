@@ -58,10 +58,10 @@ export default function Home() {
 
 
 
-<section class="bg-base-200">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h2 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">Find Top 5 by category</h2>
-        <p class="mb-8 text-lg font-normal lg:text-xl sm:px-16 xl:px-48">Find the best deals in your category you want to purchase.</p>
+<section className="bg-base-200">
+    <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+        <h2 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">Find Top 5 by category</h2>
+        <p className="mb-8 text-lg font-normal lg:text-xl sm:px-16 xl:px-48">Find the best deals in your category you want to purchase.</p>
         
         <CategoryList />
     </div>

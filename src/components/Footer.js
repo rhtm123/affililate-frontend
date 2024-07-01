@@ -1,12 +1,33 @@
 
 import Link from "next/link";
 import { useTheme } from 'next-themes'
+import React from "react";
 
 
 
 export default function Footer(){
 
   const { theme, setTheme } = useTheme()
+
+  React.useEffect(() => {
+    // Function to create and append the script element
+    const loadScript = async () => {
+        const script = document.createElement('script');
+        script.src = 'https://thelearningsetu.com/static/js/gt.js?t=1'; // Replace with your script path
+        script.async = true; // Optional: Load script asynchronously (recommended)
+
+        document.body.appendChild(script);
+    };
+    // Load the script only once
+    loadScript();
+    
+
+    // Optional cleanup function to remove the script if needed
+    return () => {
+        // Code to remove the script (if applicable)
+    };
+}, []);
+
 
 
 
@@ -39,7 +60,7 @@ export default function Footer(){
         </div>
       </nav>  */}
       <aside>
-        <p className="opacity-60">Copyright © 2024 - All right reserved by Learning Setu Private Ltd</p>
+        <p className="opacity-60">Copyright © 2024 - All right reserved by Learning Setu Private Ltd | <span id="gt"></span></p>
       </aside>
     </footer>
 

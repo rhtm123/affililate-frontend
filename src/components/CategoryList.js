@@ -41,7 +41,7 @@ export default function CategoryList(){
             </Link>
           ))}
         </div>
-        {loading && <span class="loading loading-dots loading-sm"></span>}
+        {loading && <span className="loading loading-dots loading-sm"></span>}
 
         </>
     )
