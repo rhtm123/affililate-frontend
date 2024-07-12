@@ -33,9 +33,11 @@ export default function BlogList({url}){
         <>
 
         <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3">
-          {blogPosts.map((blog) => (
+        {blogPosts
+          .filter((blog) => blog.is_published)
+          .map((blog) => (
             <Link key={blog.id} href={`/top-5/${blog.slug}`}>
-                <BlogCard data={blog} />
+              <BlogCard data={blog} />
             </Link>
           ))}
 

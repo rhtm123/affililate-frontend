@@ -51,6 +51,12 @@ export default function ProductCard({ product }) {
     fetchVariants();
   }, [product.id]);
 
+  const handleBuyNowClick = (affiliateLink) => {
+    const loadingPageUrl = `/loading?url=${encodeURIComponent(affiliateLink)}`;
+    window.open(loadingPageUrl, "_blank");
+  };
+
+
   return (
     <div className="card my-4 bg-base-300 shadow">
       <div className="card-body p-4">
@@ -79,14 +85,8 @@ export default function ProductCard({ product }) {
               <span className="text-lg font-bold">{variant?.name}</span>
               <div className="md:flex">
                 {variant.affiliates.map((affiliate) => (
-                  <Link
-                    className="md:ml-2"
-                    key={affiliate.id}
-                    href={affiliate.affiliate_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button className="btn mb-2 md:mb-0 btn-sm md:btn-md btn-primary">
+                  
+                    <button className="btn mb-2 md:ml-2 md:mb-0 btn-sm md:btn-md btn-primary" onClick={() => handleBuyNowClick(affiliate.affiliate_link)}>
                       {affiliate.marketplace === 1 && (
                         <FaAmazon size={24} className="mr-2" />
                       )}
@@ -98,7 +98,6 @@ export default function ProductCard({ product }) {
                         {affiliate.price ? ` - ₹${affiliate.price}` : ""}
                       </span>
                     </button>
-                  </Link>
                 ))}
               </div>
             </div>
