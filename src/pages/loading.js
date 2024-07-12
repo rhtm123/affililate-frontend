@@ -21,10 +21,10 @@ const Loading = () => {
         <img src="/favicon.ico" alt="Logo" className="mb-4 mx-auto w-24 h-min" />
         <p className="text-xl font-semibold">On your way to...</p>
         <img src="https://cdn.logojoy.com/wp-content/uploads/20230629132639/current-logo-600x338.png" alt="Amazon" className="mb-4 mx-auto w-40" />
-        <div className="mt-4 flex justify-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-            <span className="visually-hidden">Loading...</span>
+        <div className="mt-4  text-center">
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500 mx-auto" role="status">
           </div>
+            <span className="text-zinc-900 dark:text-white mt-4">Loading...</span>
         </div>
       </div>
     </div>
