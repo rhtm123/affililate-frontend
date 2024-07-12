@@ -86,7 +86,7 @@ export default function ProductCard({ product }) {
               <div className="md:flex">
                 {variant.affiliates.map((affiliate) => (
                   
-                    <button className="btn mb-2 md:ml-2 md:mb-0 btn-sm md:btn-md btn-primary" onClick={() => handleBuyNowClick(affiliate.affiliate_link)}>
+                    <button key={affiliate.id} className="btn mb-2 md:ml-2 md:mb-0 btn-sm md:btn-md btn-primary" onClick={() => handleBuyNowClick(affiliate.affiliate_link)}>
                       {affiliate.marketplace === 1 && (
                         <FaAmazon size={24} className="mr-2" />
                       )}
