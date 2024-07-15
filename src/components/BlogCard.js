@@ -10,13 +10,13 @@ export default function BlogCard({data}){
 
     <div className="flex">
     {data.tags.map((tag,i)=> 
-        <div key={i} className="badge badge-primary badge-outline mr-2">{tag.name}</div>
+        <div key={i} className="badge badge-secondary badge-outline mr-2">{tag.name}</div>
     )}
     </div>
     <h2 className="card-title">{data.title}</h2>
     {/* <p>How to park your car at your garage?</p> */}
     <div className="card-actions">
-      <Link href={"/top-5/"+data.slug} className="border p-2 mt-2 rounded-lg btn btn-outline btn-primary">Read Now</Link>
+      <Link href={"/top-5/"+data.slug} className="border mt-2 rounded-lg btn btn-outline btn-primary">Read Now</Link>
     </div>
   </div>
 </div>

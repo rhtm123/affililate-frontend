@@ -8,8 +8,6 @@ const ProductPage = ({data, featureCategorys, error}) => {
   if (error) {
     return <Error404 />;
   }
-
-
   return <ProductDetail data={data} featureCategorys={featureCategorys} />;
 };
 

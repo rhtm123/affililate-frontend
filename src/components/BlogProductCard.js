@@ -80,9 +80,9 @@ export default function ProductCard({ product }) {
           {variants.map((variant) => (
             <div
               key={variant.id}
-              className="border bg-base-100 border-dashed rounded-lg px-4 py-2 flex flex-col md:flex-row justify-between md:items-center mb-2"
+              className="border bg-base-100 border-dashed rounded-lg px-2 py-1 flex flex-col md:flex-row justify-between md:items-center mb-2"
             >
-              <span className="text-lg font-bold">{variant?.name}</span>
+              <Link href={`/product/${variant?.slug}`}><span className="font-bold">{variant?.name}</span></Link>
               <div className="md:flex">
                 {variant.affiliates.map((affiliate) => (
                   

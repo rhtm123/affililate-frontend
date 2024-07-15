@@ -11,7 +11,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
   const [features, setFeatures] = useState([]);
   const [priceTracks, setPriceTracks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [affiliateLinks, setAffiliateLinks] = useState(data.affiliates)
+  const [affiliateLinks, setAffiliateLinks] = useState();
   const router = useRouter();
   // const [featureCategorys, setFeatureCategorys] = useState([]);
 
@@ -20,16 +20,16 @@ const ProductDetail = ({ data, featureCategorys }) => {
     const productData = await productResponse.json();
     console.log(productData);
     setProduct(productData);
-    console.log(productData);
+    // console.log(productData);
   }
 
   const fetchFeatures = async () => { 
     const res = await fetch(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`);
     const variantFeaturesData = await res.json();
 
-    console.log(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`)
+    // console.log(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`)
 
-    console.log(variantFeaturesData.results);
+    // console.log(variantFeaturesData.results);
 
     // featureCategorys.map(featureCat => )
 
@@ -41,7 +41,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
       }))
       .filter(category => category.features.length > 0);
 
-      console.log(categorizedFeatures)
+      // console.log(categorizedFeatures)
       setFeatures(categorizedFeatures);
     }
 
@@ -55,6 +55,8 @@ const ProductDetail = ({ data, featureCategorys }) => {
         fetchProduct();
         // fetchVariants();
         fetchFeatures();
+        setProductVariant(data);
+        setAffiliateLinks(data.affiliates)
       } catch (error) {
         console.error("Error fetching product details:", error);
       } finally {
@@ -80,7 +82,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
   return (
     <div className="product-detail container mx-auto p-8">
       <div className="product-header bg-base-200 rounded-lg shadow p-4 mb-4">
-        <h1 className="text-3xl font-bold mb-2">{product?.name}</h1>
+        <h1 className="text-3xl font-bold mb-2">{product?.name} [{productVariant?.name}]</h1>
         {/* <h2 className="text-xl font-semibold text-gray-700">{productVariant.name}</h2> */}
       </div>
 
@@ -92,7 +94,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
               <Link href={`/product/${variant.slug}`} key={variant.slug}>
                 <button
                   className={`btn ${
-                    variant.name === data.name ? "btn-primary" : "btn-outline"
+                    variant.id === data.id ? "btn-primary" : "btn-outline"
                   }`}
                   key={variant.name}
                 >
@@ -104,14 +106,14 @@ const ProductDetail = ({ data, featureCategorys }) => {
         </div>
 
         <div className="affiliate-links bg-base-200 rounded-lg shadow p-4 md:w-1/2 md:ml-2">
-          <h2 className="text-xl font-semibold bg-base-100 p-2 rounded mb-2">
+          <h2 className="text-xl font-semibold pb-2">
             Affiliate Links
           </h2>
           <div className="flex flex-wrap">
             {affiliateLinks.map((affiliate) => (
               <button
                 key={affiliate.id}
-                className="btn btn-primary flex items-center mb-2 md:ml-2 w-full md:w-auto"
+                className="btn btn-primary flex items-center mb-2 w-full md:w-full"
                 onClick={() => handleBuyNowClick(affiliate.affiliate_link)}
               >
                 {affiliate.marketplace === 1 && (
