@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import Link from "next/link";
 import { FaAmazon } from "react-icons/fa";
 import { SiFlipkart } from "react-icons/si";
@@ -9,21 +9,23 @@ const ProductDetail = ({ data, featureCategorys }) => {
   const [productVariant, setProductVariant] = useState(data);
   const [product, setProduct] = useState();
   const [features, setFeatures] = useState([]);
+  const [featuresLoading, setFeaturesLoading] = useState(true);
   const [priceTracks, setPriceTracks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [affiliateLinks, setAffiliateLinks] = useState();
-  const router = useRouter();
+  // const router = useRouter();
   // const [featureCategorys, setFeatureCategorys] = useState([]);
 
   const fetchProduct = async () => {
     const productResponse = await fetch(`${process.env.API_URL}api/product/product/${data.product.id}`);
     const productData = await productResponse.json();
-    console.log(productData);
+    // console.log(productData);
     setProduct(productData);
     // console.log(productData);
   }
 
-  const fetchFeatures = async () => { 
+  const fetchFeatures = async () => {
+    setFeaturesLoading(true); setFeatures([])
     const res = await fetch(`${process.env.API_URL}api/product/variantfeatures/?product_variant=${data.id}`);
     const variantFeaturesData = await res.json();
 
@@ -34,7 +36,6 @@ const ProductDetail = ({ data, featureCategorys }) => {
     // featureCategorys.map(featureCat => )
 
 
-
     const categorizedFeatures = featureCategorys.map(category => ({
         category,
         features: variantFeaturesData.results.filter(feature => feature.feature_category.name === category),
@@ -43,6 +44,7 @@ const ProductDetail = ({ data, featureCategorys }) => {
 
       // console.log(categorizedFeatures)
       setFeatures(categorizedFeatures);
+      setFeaturesLoading(false);
     }
 
   const fetchPriceList = async ()=> {
@@ -136,6 +138,11 @@ const ProductDetail = ({ data, featureCategorys }) => {
 
       <div className="product-specs bg-base-200 rounded-lg shadow p-4 mb-4">
   <h2 className="text-xl font-semibold mb-2">Features</h2>
+  
+  {featuresLoading && <span className="py-8">Loading....</span>}
+
+  {(!featuresLoading && features.length===0) && <span className="py-8">No feature available for this product</span>}
+  
   {features.map(({ category, features }) => (
     <details key={category} className="collapse collapse-arrow bg-base-200 mb-4">
       <summary className="collapse-title text-lg font-semibold bg-base-100  rounded">

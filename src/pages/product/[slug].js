@@ -27,6 +27,7 @@ export async function getServerSideProps(context) {
 
   let featureCategorys = data.product?.category?.category_features.split(',')
 
+  // console.log(featureCategorys);
 
   return { 
       props: {  
